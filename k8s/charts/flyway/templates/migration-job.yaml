@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway
+  labels:
+    app: flyway
+    jobgroup: migration
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      initContainers :
+        - name : check-postgres-ready
+          image : postgres:15-alpine
+          command : [ 'sh', '-c' ]
+          args :
+            - |
+              until pg_isready -h {{ .Values.db.host }} -p {{ .Values.db.port }} -U {{ .Values.db.adminUser }}; do
+                echo "Waiting for PostgreSQL to be ready..."
+                sleep 2
+              done
+          env :
+            - name : PGPASSWORD
+              value : {{ .Values.db.password }}
+      containers :
+        - name : flyway
+          image: {{ .Values.image.repository }}
+          args:
+            - {{ .Values.flyway.command }}
+            - -X
+          env:
+            - name: FLYWAY_URL
+{{/*              value: "jdbc:postgresql://{{ .Values.db.host }}:{{ .Values.db.port }}/postgres"*/}}
+              value: "jdbc:postgresql://{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.name }}"
+            - name: FLYWAY_USER
+              value: {{ .Values.db.adminUser }}
+            - name: FLYWAY_PASSWORD
+              value: {{ .Values.db.password }}
+            - name: FLYWAY_PLACEHOLDER_REPLACEMENT
+              value: "true"
+            - name: FLYWAY_PLACEHOLDERS_USERNAME
+              value: {{ .Values.flyway.placeholders.username | quote }}
+            - name: FLYWAY_PLACEHOLDERS_PASSWORD
+              value: {{ .Values.flyway.placeholders.password | quote }}
+          volumeMounts:
+            - mountPath: /flyway/sql
+              name: sql
+      volumes:
+        - name: sql
+          configMap:
+            name: {{ .Values.namespace }}-migrations
+      restartPolicy: Never

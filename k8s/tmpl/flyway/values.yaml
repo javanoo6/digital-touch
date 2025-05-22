@@ -1,0 +1,21 @@
+namespace: ${DT_APP_NAMESPACE}
+
+image:
+  repository: ${DT_REGISTRY_NAME}/flyway:11-alpine
+  pullPolicy: IfNotPresent
+
+flyway:
+  command: migrate
+  placeholders:
+    username: ${DT_POSTGRES_DB_APP_USERNAME}
+    password: ${DT_POSTGRES_DB_APP_PASSWORD}
+
+db:
+  host: postgresql
+  port: ${DT_POSTGRES_HTTP_PORT}
+  name: ${DT_POSTGRES_DB_NAME}
+  adminUser: ${DT_POSTGRES_DB_ADMIN_USERNAME}
+  password: ${DT_POSTGRES_DB_ADMIN_PASSWORD}
+  secret :
+    name : postgresql
+    key : postgres-password
