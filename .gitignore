@@ -1,0 +1,5 @@
+/.idea/
+/k8s/charts/flyway/Chart.yaml
+/k8s/charts/flyway/values.yaml
+/k8s/charts/postgresql/Chart.yaml
+/k8s/charts/postgresql/values.yaml
