@@ -53,24 +53,19 @@ export DT_POSTGRES_HTTP_PORT=${DT_POSTGRES_HTTP_PORT:-5432}
 export DT_POSTGRES_NODE_PORT=${DT_POSTGRES_NODE_PORT:-30432}
 export DT_FLYWAY_IMAGE_TAG=${DT_FLYWAY_IMAGE_TAG:-"latest"}
 
-
-# Prerequisites
-export DT_PREREQUISITES=${DT_PREREQUISITES:-"nginx"}
-
-
 log() {
-    local level="$1"
-    local message="$2"
-    local timestamp
-    timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+  local level="$1"
+  local message="$2"
+  local timestamp
+  timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
-    case "$level" in
-        info)  echo -e "\033[0;32m[$timestamp] [INFO] $message\033[0m" ;;
-        warn)  echo -e "\033[0;33m[$timestamp] [WARN] $message\033[0m" ;;
-        debug) echo -e "\033[0;36m[$timestamp] [DEBUG] $message\033[0m" ;;
-        error) echo -e "\033[0;31m[$timestamp] [ERROR] $message\033[0m" ;;
-        *)     echo -e "Usage: log info|warn|debug \"message\"" ;;
-    esac
+  case "$level" in
+    info)  echo -e "\033[0;32m[$timestamp] [INFO] $message\033[0m" ;;
+    warn)  echo -e "\033[0;33m[$timestamp] [WARN] $message\033[0m" ;;
+    debug) echo -e "\033[0;36m[$timestamp] [DEBUG] $message\033[0m" ;;
+    error) echo -e "\033[0;31m[$timestamp] [ERROR] $message\033[0m" ;;
+    *)     echo -e "Usage: log info|warn|debug \"message\"" ;;
+  esac
 }
 
 test_image_awailability() {
@@ -153,6 +148,7 @@ export default_registry_images=(
   "flyway/flyway:11-alpine"
   "kindest/node:v1.32.2"
   "alpine:3.21.3"
+  "nginx:1.25-alpine"
 )
 
 push_image_to_registry() {

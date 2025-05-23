@@ -39,6 +39,9 @@ nodes:
       - containerPort: 30003
         hostPort: 30003
         protocol: TCP
+      - containerPort: ${DT_POSTGRES_NODE_PORT}
+        hostPort: ${DT_POSTGRES_NODE_PORT}
+        protocol: TCP
   - role: worker
     extraMounts:
       - hostPath: ${HOME}/.kind/data/${DT_CLUSTER_NAME}
@@ -74,9 +77,9 @@ EOF
 log info "Step 1: Creating registry container unless it already exists 🐳"
 
 if [ "$(docker inspect -f '{{.State.Running}}' "${DT_REGISTRY_NAME}" 2>/dev/null || true)" != 'true' ]; then
-    log info "Starting Docker registry container 📦"
-    docker run \
-        -d --restart=always -p "127.0.0.1:${DT_REGISTRY_PORT}:${DT_REGISTRY_HOST_PORT}" --name "${DT_REGISTRY_NAME}" "${DT_REGISTRY_IMAGE}"
+  log info "Starting Docker registry container 📦"
+  docker run \
+    -d --restart=always -p "127.0.0.1:${DT_REGISTRY_PORT}:${DT_REGISTRY_HOST_PORT}" --name "${DT_REGISTRY_NAME}" "${DT_REGISTRY_IMAGE}"
 fi
 log info "Registry container is working ✅"
 
@@ -86,12 +89,12 @@ push_image_to_registry "${default_registry_images[@]}"
 log info "Step 2: Connecting the registry to the kind network 🔌"
 
 if [ "$(docker inspect -f='{{json .NetworkSettings.Networks.kind}}' "${DT_REGISTRY_NAME}" 2>/dev/null)" = 'null' ]; then
-    log info "Connecting registry to kind network 🌐"
-    if docker network connect "kind" "${DT_REGISTRY_NAME}"; then
-        log info "Successfully connected registry to network ✅"
-    else
-        log warn "Failed to connect to network, unexpected error ⚠️"
-    fi
+  log info "Connecting registry to kind network 🌐"
+  if docker network connect "kind" "${DT_REGISTRY_NAME}"; then
+    log info "Successfully connected registry to network ✅"
+  else
+    log warn "Failed to connect to network, unexpected error ⚠️"
+  fi
 else
     log info "Registry already connected to network ✅"
 fi
@@ -122,15 +125,15 @@ done
 log info "Step 4: Adding entry to /etc/hosts if it doesn't exist already 📝"
 
 if ! grep -q "${DT_REGISTRY_NAME}" /etc/hosts; then
-    log info "Adding entry to /etc/hosts (requires sudo) 🔑"
-    if sudo tee -a /etc/hosts > /dev/null <<< "127.0.0.1 ${DT_REGISTRY_NAME}"; then
-        log info "Successfully added ${DT_REGISTRY_NAME} to /etc/hosts ✅"
-    else
-        log warn "Failed to add entry to /etc/hosts. You may need to add it manually ⚠️"
-        log warn "127.0.0.1 ${DT_REGISTRY_NAME}"
-    fi
+  log info "Adding entry to /etc/hosts (requires sudo) 🔑"
+  if sudo tee -a /etc/hosts > /dev/null <<< "127.0.0.1 ${DT_REGISTRY_NAME}"; then
+    log info "Successfully added ${DT_REGISTRY_NAME} to /etc/hosts ✅"
+  else
+    log warn "Failed to add entry to /etc/hosts. You may need to add it manually ⚠️"
+    log warn "127.0.0.1 ${DT_REGISTRY_NAME}"
+  fi
 else
-    log info "${DT_REGISTRY_NAME} already exists in /etc/hosts ✅"
+  log info "${DT_REGISTRY_NAME} already exists in /etc/hosts ✅"
 fi
 
 log info "Restarting containerd on Kind nodes..."
