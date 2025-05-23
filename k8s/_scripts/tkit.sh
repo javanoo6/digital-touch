@@ -148,7 +148,6 @@ export default_registry_images=(
   "flyway/flyway:11-alpine"
   "kindest/node:v1.32.2"
   "alpine:3.21.3"
-  "nginx:1.25-alpine"
 )
 
 push_image_to_registry() {
