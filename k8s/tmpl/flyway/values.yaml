@@ -1,7 +1,7 @@
 namespace: ${DT_APP_NAMESPACE}
 
 image:
-  repository: ${DT_REGISTRY_NAME}/flyway:11-alpine
+  repository: ${DT_REGISTRY_NAME}:${DT_REGISTRY_HOST_PORT}/flyway:11-alpine
   pullPolicy: IfNotPresent
 
 flyway:
