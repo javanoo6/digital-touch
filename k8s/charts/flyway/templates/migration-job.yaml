@@ -30,7 +30,6 @@ spec:
             - -X
           env:
             - name: FLYWAY_URL
-{{/*              value: "jdbc:postgresql://{{ .Values.db.host }}:{{ .Values.db.port }}/postgres"*/}}
               value: "jdbc:postgresql://{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.name }}"
             - name: FLYWAY_USER
               value: {{ .Values.db.adminUser }}

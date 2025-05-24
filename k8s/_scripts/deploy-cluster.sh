@@ -33,13 +33,13 @@ nodes:
       - hostPath: ${HOME}/.kind/data/${DT_CLUSTER_NAME}
         containerPath: /data
     extraPortMappings:
-      - containerPort: 30002
-        hostPort: 30002
+      - containerPort: ${DT_INGRESS_HTTP_PORT}
+        hostPort: 8080
         protocol: TCP
-      - containerPort: 30003
-        hostPort: 30003
+      - containerPort: ${DT_INGRESS_HTTPS_PORT}
+        hostPort: 8433
         protocol: TCP
-      - containerPort: ${DT_POSTGRES_NODE_PORT}
+      - containerPort: ${DT_POSTGRES_CONTAINER_PORT}
         hostPort: ${DT_POSTGRES_NODE_PORT}
         protocol: TCP
   - role: worker

@@ -11,7 +11,7 @@ database:
 
 service:
   type: ${DT_POSTGRES_SERVICE_TYPE}
-  port: ${DT_POSTGRES_HTTP_PORT}
+  port: ${DT_POSTGRES_CONTAINER_PORT}
   nodePort: ${DT_POSTGRES_NODE_PORT}
 
 persistence:

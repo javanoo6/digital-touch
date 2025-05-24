@@ -12,7 +12,7 @@ flyway:
 
 db:
   host: postgresql
-  port: ${DT_POSTGRES_HTTP_PORT}
+  port: ${DT_POSTGRES_CONTAINER_PORT}
   name: ${DT_POSTGRES_DB_NAME}
   adminUser: ${DT_POSTGRES_DB_ADMIN_USERNAME}
   password: ${DT_POSTGRES_DB_ADMIN_PASSWORD}

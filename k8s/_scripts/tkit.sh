@@ -37,8 +37,8 @@ export KIND_DATA_DIR=${KIND_DATA_DIR:-"${HOME}/.kind/data/${DT_CLUSTER_NAME}"}
 
 # Ingress-Nginx
 export DT_IN_SERVICE_TYPE=${DT_IN_SERVICE_TYPE:-"NodePort"}
-export DT_IN_HTTP_PORT=${DT_IN_HTTP_PORT:-80}
-export DT_IN_HTTPS_PORT=${DT_IN_HTTPS_PORT:-433}
+export DT_INGRESS_HTTP_PORT=${DT_INGRESS_HTTP_PORT:-80}
+export DT_INGRESS_HTTPS_PORT=${DT_INGRESS_HTTPS_PORT:-433}
 
 # Postgres
 export DT_POSTGRES_DB_NAME=${DT_POSTGRES_DB_NAME:-"digital-touch-app"}
@@ -49,7 +49,7 @@ export DT_POSTGRES_DB_APP_USERNAME=${DT_POSTGRES_DB_APP_USERNAME:-"dt-admin"}
 export DT_POSTGRES_DB_APP_PASSWORD=${DT_POSTGRES_DB_APP_PASSWORD:-"dt-passwd"}
 
 export DT_POSTGRES_SERVICE_TYPE=${DT_POSTGRES_SERVICE_TYPE:-"NodePort"}
-export DT_POSTGRES_HTTP_PORT=${DT_POSTGRES_HTTP_PORT:-5432}
+export DT_POSTGRES_CONTAINER_PORT=${DT_POSTGRES_CONTAINER_PORT:-5432}
 export DT_POSTGRES_NODE_PORT=${DT_POSTGRES_NODE_PORT:-30432}
 export DT_FLYWAY_IMAGE_TAG=${DT_FLYWAY_IMAGE_TAG:-"latest"}
 
@@ -80,8 +80,8 @@ install_ingress_nginx() {
     sed "s|registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.5.3|${DT_REGISTRY_NAME}:5000/kube-webhook-certgen:v1.5.3|g" | \
     sed "s|@sha256:[a-f0-9]*||g" | \
     sed "s/namespace: ingress-nginx/namespace: ${DT_INFRA_NAMESPACE}/g" | \
-    sed "s/port: 80/port: ${DT_IN_HTTP_PORT}/g" | \
-    sed "s/port: 443/port: ${DT_IN_HTTPS_PORT}/g" > "$TMP_MANIFEST"
+    sed "s/port: 80/port: ${DT_INGRESS_HTTP_PORT}/g" | \
+    sed "s/port: 443/port: ${DT_INGRESS_HTTPS_PORT}/g" > "$TMP_MANIFEST"
 
   kubectl apply -f "$TMP_MANIFEST"
 
@@ -132,6 +132,7 @@ export default_registry_images=(
   "flyway/flyway:11-alpine"
   "kindest/node:v1.32.2"
   "alpine:3.21.3"
+  "registry.k8s.io/e2e-test-images/agnhost:2.39"
 )
 
 push_image_to_registry() {
