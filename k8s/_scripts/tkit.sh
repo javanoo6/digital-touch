@@ -85,6 +85,7 @@ install_ingress_nginx() {
 
   kubectl apply -f "$TMP_MANIFEST"
 
+  rm "$TMP_MANIFEST"
 
   log info "Waiting for ingress-nginx controller to be ready..."
   kubectl wait --namespace "${DT_INFRA_NAMESPACE}" \
