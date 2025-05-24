@@ -12,9 +12,6 @@ if [[ ! -d "${src}" ]]; then
     exit 1
 fi
 
-# note nginx configuration was stolen form here: https://github.com/kubernetes/ingress-nginx/blob/main/deploy/static/provider/kind/deploy.yaml
-# (hehe)
-
 log info "Rendering templates from ${src} to ${dst}"
 
 find "${src}" -type f -name "*.yaml" | while read -r template; do
