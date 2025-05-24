@@ -39,12 +39,12 @@ else
   echo "Maven installed successfully."
 fi
 
-if dpkg -l | grep -q openjdk-17-jdk; then
-  echo "OpenJDK 17 is already installed."
+if dpkg -l | grep -q openjdk-21-jdk; then
+  echo "OpenJDK 21 is already installed."
 else
-  echo "Installing OpenJDK 17..."
-  sudo apt install -y openjdk-17-jdk
-  echo "OpenJDK 17 installed successfully."
+  echo "Installing OpenJDK 21..."
+  sudo apt install -y openjdk-21-jdk
+  echo "OpenJDK 21 installed successfully."
 fi
 
 if which mvn >/dev/null 2>&1; then

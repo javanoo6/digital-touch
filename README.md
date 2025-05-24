@@ -14,10 +14,10 @@
 - **Helm**: 3.12.0 or newer
     - [Helm Installation Guide](https://helm.sh/docs/intro/install/)
 
-- **Java**: JDK 17 or newer for backend development
+- **Java**: JDK 21 or newer for backend development
     - [OpenJDK Installation](https://openjdk.org/install/)
 
-- **Maven**: JDK 17 or newer for backend development
+- **Maven**: 3.9.0 or newer for building Java projects
   - [Maven Installation](https://maven.apache.org/download.cgi)
 
 ## System Requirements
