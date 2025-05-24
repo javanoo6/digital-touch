@@ -26,5 +26,5 @@
 - 20GB free disk space
 - Ubuntu 24.04 or compatible Linux distribution
 
-In order to install prerequisites on ubuntu 23.04 please run
+In order to install prerequisites on ubuntu 24.04 please run
 `./k8s/install-prerequsites.sh`
