@@ -68,22 +68,6 @@ log() {
   esac
 }
 
-test_image_awailability() {
-cat <<EOF | kubectl apply -f -
-  apiVersion: v1
-  kind: Pod
-  metadata:
-    name: registry-test
-    namespace: ${DT_INFRA_NAMESPACE}
-  spec:
-    containers:
-    - name: registry-test
-      image: ${DT_REGISTRY_NAME}:5000/alpine:3.21.3
-      command: ["sh", "-c", "echo 'Registry test successful'; sleep 25"]
-    restartPolicy: Never
-EOF
-}
-
 # taken from here: https://github.com/kubernetes/ingress-nginx/blob/main/deploy/static/provider/kind/deploy.yaml
 install_ingress_nginx() {
   log info "Installing ingress-nginx in ${DT_INFRA_NAMESPACE} namespace 🚀"
