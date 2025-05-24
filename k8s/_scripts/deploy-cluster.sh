@@ -39,8 +39,8 @@ nodes:
       - containerPort: ${DT_INGRESS_HTTPS_PORT}
         hostPort: 8433
         protocol: TCP
-      - containerPort: ${DT_POSTGRES_CONTAINER_PORT}
-        hostPort: ${DT_POSTGRES_NODE_PORT}
+      - containerPort: ${DT_POSTGRES_NODE_PORT}
+        hostPort: 30432
         protocol: TCP
   - role: worker
     extraMounts:
