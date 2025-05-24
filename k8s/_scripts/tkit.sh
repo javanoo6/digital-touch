@@ -178,4 +178,3 @@ push_image_to_registry() {
     fi
   done
 }
-
