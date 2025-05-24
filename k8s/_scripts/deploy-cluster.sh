@@ -13,7 +13,7 @@ chmod 750 "${KIND_DATA_DIR}"
 
 log info "Creating a cluster 🚀"
 
-cat <<EOF | kind create cluster --name "${DT_CLUSTER_NAME}" --config=-
+kind create cluster --name "${DT_CLUSTER_NAME}" --config=- <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: ${DT_CLUSTER_NAME}
@@ -60,7 +60,7 @@ kubectl config use-context "$CONTEXT_NAME"
 
 log info "Creating namespaces: ${DT_INFRA_NAMESPACE}, ${DT_APP_NAMESPACE}"
 
-cat <<EOF | kubectl apply -f -
+kubectl apply -f - <<EOF
 ---
 apiVersion: v1
 kind: Namespace
